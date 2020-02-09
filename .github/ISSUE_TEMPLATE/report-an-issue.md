@@ -1,7 +1,7 @@
 ---
-name: Report an Issue
+name: Bug report
 about: Create a report to help us improve
-title: ''
+title: 'Report an Issue'
 labels: bug, invalid
 assignees: berkgoksel
 
