@@ -23,7 +23,7 @@ A clear and concise description of what you expected to happen.
 **Screenshots**
 If applicable, add screenshots to help explain your problem.
 
-**Desktop (please complete the following information):**
+**Environment (please complete the following information):**
  - OS: [e.g. Windows 7, Windows 10, Ubuntu 18.04]
  - Software and version [e.g. Slack 2.x, Discord Mobile version:x]
 
