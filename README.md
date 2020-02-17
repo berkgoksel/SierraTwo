@@ -45,13 +45,13 @@ Add the following OAuth permissons for the Bot Token
 # User Token Scopes
 Add the following permission to the User Token Scopes.
 
+
 | Permission | Description |
 | --- | --- |
 | **admin** | Administer the workspace |
 
 
 Enter the newly generated Bot User OAuth Token and User Token into config.ini.
-
 Install the app on the workspace.
 
 
