@@ -16,8 +16,6 @@ Go to apps.slack.com and create a Bot.
 Under features, go to OAuth & Permissions and click on Permissions.
 
 
-![image](https://user-images.githubusercontent.com/25488666/74659282-18750f80-51a5-11ea-95d0-872a190e9d9d.png)
-
 
 Add the following OAuth permissons for the Bot Token
 
@@ -45,8 +43,6 @@ Add the following OAuth permissons for the Bot Token
 
 Install the app on the workspace
 
-![image](https://user-images.githubusercontent.com/25488666/74659728-e912d280-51a5-11ea-87d1-7d9beeadf631.png)
-
 
 Enter the newly generated Bot User OAuth Token into config.ini
 
@@ -55,8 +51,6 @@ Add the following permission to the User Token Scopes.
 | Permission | Description |
 | --- | --- |
 | **admin** | Administer the workspace |
-
-![image](https://user-images.githubusercontent.com/25488666/74660179-af8e9700-51a6-11ea-9cb8-7d3c35ad4507.png)
 
 
 
