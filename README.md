@@ -16,6 +16,7 @@ Go to apps.slack.com and create a Bot.
 Under features, go to OAuth & Permissions and click on Permissions.
 
 
+# Bot Token Scope
 
 Add the following OAuth permissons for the Bot Token
 
@@ -41,16 +42,19 @@ Add the following OAuth permissons for the Bot Token
 | **remote_files:write** | Add, edit, and delete remote files on the user’s behalf |
 
 
-Install the app on the workspace
-
-
-Enter the newly generated Bot User OAuth Token into config.ini
-
+# User Token Scopes
 Add the following permission to the User Token Scopes.
 
 | Permission | Description |
 | --- | --- |
 | **admin** | Administer the workspace |
+
+
+Enter the newly generated Bot User OAuth Token and User Token into config.ini.
+
+Install the app on the workspace.
+
+
 
 
 
