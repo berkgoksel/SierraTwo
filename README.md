@@ -5,7 +5,7 @@ SierraTwo refers to the Slack shell, whereas SierraThree refers to the Discord s
 # Dependencies
 SierraTwo only supports python3. You can install the dependencies as follows.
 
-pip install -r requirements.txt
+>pip install -r requirements.txt
 
 # Configuration
 
@@ -52,7 +52,9 @@ Enter the newly generated Bot User OAuth Token into config.ini
 
 Add the following permission to the User Token Scopes.
 
-**admin:Administer the workspace**
+| Permission | Description |
+| --- | --- |
+| **admin:Administer the workspace** |
 
 ![image](https://user-images.githubusercontent.com/25488666/74660179-af8e9700-51a6-11ea-9cb8-7d3c35ad4507.png)
 
