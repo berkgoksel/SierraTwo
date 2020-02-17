@@ -51,7 +51,8 @@ Add the following permission to the User Token Scopes.
 | **admin** | Administer the workspace |
 
 
-Enter the newly generated Bot User OAuth Token and User Token into config.ini.
+Enter the newly generated Bot User OAuth Token and User Token in the config.ini file.
+
 Install the app on the workspace.
 
 
