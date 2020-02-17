@@ -24,43 +24,23 @@ Add the following OAuth permissons for the Bot Token
 
 | Permission | Description |
 | --- | --- |
-| git status | List all new or modified files |
-| git diff | Show file differences that haven't been staged |
-| **channels:history** | View messages and other content in public channels that BravoOmegaTango has been added to
-
-| **channels:join** | Join public channels in the workspace
-
-| **channels:manage** | Manage public channels that BravoOmegaTango has been added to and create new ones
-
-| **channels:read** | View basic information about public channels in the workspace
-
-| **chat:write** | Send messages as @bravoomegatango
-
-| **commands** | Add actions and/or slash commands that people can use
-
-| **files:write** | Upload, edit, and delete files as BravoOmegaTango
-
-| **groups:history** | View messages and other content in private channels that BravoOmegaTango has been added to
-
-| **groups:read** | View basic information about private channels that BravoOmegaTango has been added to
-
-| **groups:write** | Manage private channels that BravoOmegaTango has been added to and create new ones
-
-| **im:history** | View messages and other content in direct messages that BravoOmegaTango has been added to
-
-| **im:read** | View basic information about direct messages that BravoOmegaTango has been added to
-
-| **im:write** | Start direct messages with people
-
-| **mpim:history** | View messages and other content in group direct messages that BravoOmegaTango has been added to
-
-| **mpim:read** | View basic information about group direct messages that BravoOmegaTango has been added to
-
-| **mpim:write** | Start group direct messages with people
-
-| **remote_files:write** | Add, edit, and delete remote files on the user’s behalf
-| --- | --- |
-
+| **channels:history** | View messages and other content in public channels that BravoOmegaTango has been added to |
+| **channels:join** | Join public channels in the workspace |
+| **channels:manage** | Manage public channels that BravoOmegaTango has been added to and create new ones |
+| **channels:read** | View basic information about public channels in the workspace |
+| **chat:write** | Send messages as @bravoomegatango |
+| **commands** | Add actions and/or slash commands that people can use |
+| **files:write** | Upload, edit, and delete files as BravoOmegaTango |
+| **groups:history** | View messages and other content in private channels that BravoOmegaTango has been added to |
+| **groups:read** | View basic information about private channels that BravoOmegaTango has been added to |
+| **groups:write** | Manage private channels that BravoOmegaTango has been added to and create new ones |
+| **im:history** | View messages and other content in direct messages that BravoOmegaTango has been added to |
+| **im:read** | View basic information about direct messages that BravoOmegaTango has been added to |
+| **im:write** | Start direct messages with people |
+| **mpim:history** | View messages and other content in group direct messages that BravoOmegaTango has been added to |
+| **mpim:read** | View basic information about group direct messages that BravoOmegaTango has been added to |
+| **mpim:write** | Start group direct messages with people |
+| **remote_files:write** | Add, edit, and delete remote files on the user’s behalf |
 
 
 Install the app on the workspace
