@@ -54,7 +54,7 @@ Add the following permission to the User Token Scopes.
 
 | Permission | Description |
 | --- | --- |
-| **admin:Administer the workspace** |
+| **admin** | Administer the workspace |
 
 ![image](https://user-images.githubusercontent.com/25488666/74660179-af8e9700-51a6-11ea-9cb8-7d3c35ad4507.png)
 
