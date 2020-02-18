@@ -47,7 +47,7 @@ def run_upload(filename, sh_channel_id):
 
 #TODO:
 #Function the script up 
-#Have an exit and upload mechnizm
+#Have an exit and upload mechanism
 #Read slack tokens from a config file
 
 #Bugs:
