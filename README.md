@@ -4,29 +4,26 @@ Project Sierra is a simple encrypted reverse shell over Github, Slack, and Disco
 `SierraTwo` refers to the Slack shell, whereas `SierraOne` refers to the `Github` shell and `SierraThree` refers to the Discord shell.
 
 ## Usage
-SierraTwo only supports Python 3.x. Y
+`SierraTwo` only supports Python 3.x.
 
 ### Windows
 ```
 $ pip install -r requirements.txt
+$ python SierraTwo.py
 ```
 
 ### Linux
 ```
 $ sudo apt install python3-pip
 $ pip3 install -r requirements.txt
+$ python3 SierraTwo.py
 ```
 
 
 ## Configuration
-To use SierraTwo, create a Slack workspace where you are the admin. Afterwards go to [Slack Apps][Slack Apps]{:target="_blank"} and create a bot. From there, under the `Features` tab, go to `OAuth & Permissions` and click on `Permissions`.
+To use `SierraTwo`, create a Slack workspace where you are the admin. Afterwards go to [Slack Apps][Slack Apps] and create a bot. From there, under the `Features` tab, go to `OAuth & Permissions` and add the following scopes:
 
-
-### Bot Token Scope
-
-Add the following OAuth permissions for the Bot Token
-
-
+### Bot Token Scopes
 | Permission             | Description                                                                                     |
 |------------------------|-------------------------------------------------------------------------------------------------|
 | **channels:history**   | View messages and other content in public channels that BravoOmegaTango has been added to       |
@@ -49,15 +46,12 @@ Add the following OAuth permissions for the Bot Token
 
 
 ### User Token Scopes
-Add the following permission to the User Token Scopes.
-
-
 | Permission | Description              |
 |------------|--------------------------|
 | **admin**  | Administer the workspace |
 
 
-After setting the token scopes, input the newly generated `Bot User OAuth Token` and `User Token` in the `config.ini` file. Finally, install the app on the workspace.
+After setting the token scopes, paste your `Member ID` (your Slack ID), `OAuth Access Token` and `Bot User OAuth Token` to `config.yaml` file. Finally, install the app on the workspace.
 
 ## TODO:
 - Divide the script into smaller functions for readability.
@@ -71,4 +65,4 @@ After setting the token scopes, input the newly generated `Bot User OAuth Token`
 - Sometimes channels don't get created.
 - Upload sends filename as bytes output converted to string (ex: file does not exist: b'filename.txt') - Looks like an issue on Slack's side.
 
-[Slack Apps]: https://apps.slack.com
+[Slack Apps]: https://api.slack.com
