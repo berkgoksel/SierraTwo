@@ -81,7 +81,7 @@ def init_conn():
     if platform.system() == "Windows":
         machine_UUID = str(subprocess.check_output("wmic csproduct get UUID"))
     elif platform.system() == "Linux":
-        machine_UUID = str("linuxmacineUID")
+        machine_UUID = str(subprocess.check_output(["cat", "/etc/machine-id"]).decode().strip())
     elif platform.system() == "Darwin":
         machine_UUID = str(subprocess.check_output(["ioreg" , "-d2", "-c", "IOPlatformExpertDevice", "|", "awk", "-F", "'/IOPlatformUUID/{print $(NF-1)}'"]))
     else:
