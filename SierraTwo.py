@@ -56,23 +56,23 @@ def run_upload(filename, sh_channel_id):
 
 def next_sh(channel_names):
     # For some reason this stopped working
+    numbers = []
     sh_num = 0
-    for a in channel_names:
-        current_sh_name = a.get("name")
-        if channel_prefix in current_sh_name:
-            b = current_sh_name.split("-")[2]
-            if b.isdigit():
-                b = int(b)
-                if b > sh_num:
-                    print(b)
-                    sh_num = b
-                elif b == sh_num:
-                    sh_num = sh_num + 1
+    for channel in channel_names:
+        current_sh_name = channel.get("name")
+        if channel_prefix in channel.get("name"):
+            channel_number = channel.get("name").split("-")[2]
+            if channel_number.isdigit():
+                numbers.append(int(channel_number))
 
+    channels = list(range(min(numbers), max(numbers) + 2))
+    for i in set(channels) ^ set(numbers):
+        return i
 
-    sh_num = sh_num + 1
+    sh_num = i + 1
+    print(f"testing {sh_num}")
 
-    print("SH NUM : " + str(sh_num))
+    print("Shell Number: " + str(sh_num))
     return sh_num
 
 
