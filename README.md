@@ -1,7 +1,5 @@
 # SierraTwo
-Project Sierra is a simple encrypted reverse shell over Github, Slack, and Discord.
-
-`SierraTwo` refers to the Slack shell, whereas `SierraOne` refers to the `Github` shell and `SierraThree` refers to the Discord shell.
+Sierra Two is a simple reverse shell over Slack.
 
 ## Usage
 `SierraTwo` only supports Python 3.x.
@@ -18,7 +16,6 @@ $ sudo apt install python3-pip
 $ pip3 install -r requirements.txt
 $ python3 SierraTwo.py
 ```
-
 
 ## Configuration
 To use `SierraTwo`, create a Slack workspace where you are the admin. Afterwards go to [Slack Apps][Slack Apps] and create a bot. From there, under the `Features` tab, go to `OAuth & Permissions` and add the following scopes:
