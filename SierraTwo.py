@@ -67,16 +67,11 @@ def next_sh(channel_names):
                 if channel_number.isdigit():
                     numbers.append(int(channel_number))
 
-        channels = list(range(min(numbers), max(numbers) + 2))
-        for i in set(channels) ^ set(numbers):
-            return i
+        return max(numbers) + 1
+
     except ValueError:
         return sh_num + 1
 
-    sh_num = i + 1
-    print(f"testing {sh_num}")
-
-    print("Shell Number: " + str(sh_num))
     return sh_num
 
 
