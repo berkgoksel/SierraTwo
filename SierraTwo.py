@@ -4,7 +4,6 @@ import os
 import platform
 import re
 import slack
-import socket
 import subprocess
 import sys
 import time
@@ -96,9 +95,8 @@ def init_conn():
     else:
         machine_UUID = str("platform unrecognized.")
 
-    machine_IP = socket.gethostbyname(socket.gethostname())
     # Won't work if /etc/hosts has  127.0.0.1 defined as hostname:
-    sh_stdout = machine_UUID + " connected from " + machine_IP
+    sh_stdout = platform.system() + " with the " + machine_UUID + " UUID connected."
     # re.search(r'\d+', sh_stdout).group(0)
 
     return sh_stdout
