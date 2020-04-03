@@ -58,16 +58,20 @@ def next_sh(channel_names):
     # For some reason this stopped working
     numbers = []
     sh_num = 0
-    for channel in channel_names:
-        current_sh_name = channel.get("name")
-        if channel_prefix in channel.get("name"):
-            channel_number = channel.get("name").split("-")[2]
-            if channel_number.isdigit():
-                numbers.append(int(channel_number))
 
-    channels = list(range(min(numbers), max(numbers) + 2))
-    for i in set(channels) ^ set(numbers):
-        return i
+    try:
+        for channel in channel_names:
+            current_sh_name = channel.get("name")
+            if channel_prefix in channel.get("name"):
+                channel_number = channel.get("name").split("-")[2]
+                if channel_number.isdigit():
+                    numbers.append(int(channel_number))
+
+        channels = list(range(min(numbers), max(numbers) + 2))
+        for i in set(channels) ^ set(numbers):
+            return i
+    except ValueError:
+        return sh_num + 1
 
     sh_num = i + 1
     print(f"testing {sh_num}")
