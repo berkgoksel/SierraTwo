@@ -12,8 +12,18 @@ import yaml
 def run_c(input_c, sh_channel_id):
 
     if input_c[:7] == "upload ":
-        print(type(input_c[:7]))
-        run_upload(input_c[7:], sh_channel_id)
+        try:
+            out = client.files_upload(file=input_c[7:],
+                                    channels=sh_channel_id,
+                                    filename=input_c[7:],
+                                    title=input_c[7:],
+                                    )
+
+            assert out["ok"]
+
+            return f"Uploaded {input_c[7:]}"
+        except FileNotFoundError:
+            return "File not found."
 
     elif input_c == "sh_exit":
         sys.exit(0)
@@ -34,14 +44,6 @@ def run_c(input_c, sh_channel_id):
         else:
             return out
 
-
-def run_upload(filename, sh_channel_id):
-    print(filename)
-    print(type(filename))
-
-    response = client.files_upload(channel=sh_channel_id, file=filename)
-
-    assert response["ok"]
 
 # TODO:
 # Function the script up 
