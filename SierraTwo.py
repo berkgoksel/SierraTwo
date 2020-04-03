@@ -40,7 +40,6 @@ def run_c(input_c, sh_channel_id):
 
         if out == "":
             return "The command did not return anything."
-
         else:
             return out
 
