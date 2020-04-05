@@ -60,4 +60,7 @@ to `config.yaml` file. Finally, install the app on the workspace.
 - Implement an easy-to-use obfuscated (for evasion, not anti-debugging, etc.) binary generation for Windows and Linux 
 operating systems.
 
+## Known Bugs:
+- Launching more than one instance of the bot causes the Slack API to kick the bot offline (The server responds with `{'ok': False, 'error': 'ratelimited'}`).
+
 [Slack API]: https://api.slack.com
