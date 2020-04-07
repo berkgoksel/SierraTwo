@@ -57,7 +57,7 @@ to `config.yaml` file. Finally, install the app on the workspace.
 - Divide the script into smaller functions for readability.
 - Add support for Windows and Linux operating systems.
 - Implement a simple process injection method for Windows and Linux.
-- Implement an easy-to-use obfuscated (for evasion, not anti-debugging, etc.) binary generation for Windows and Linux 
+- Implement an easy-to-use obfuscated (for evasion. No anti-debugging.) binary generation for Windows and Linux 
 operating systems.
 
 ## Known Bugs:
