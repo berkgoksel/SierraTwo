@@ -1,7 +1,5 @@
 # SierraTwo
-Project Sierra is a simple encrypted reverse shell over Github, Slack, and Discord.
-
-`SierraTwo` refers to the Slack shell, whereas `SierraOne` refers to the `Github` shell and `SierraThree` refers to the Discord shell.
+`SierraTwo` is a simple reverse shell over Slack.
 
 ## Usage
 `SierraTwo` only supports Python 3.x.
@@ -19,9 +17,10 @@ $ pip3 install -r requirements.txt
 $ python3 SierraTwo.py
 ```
 
-
 ## Configuration
-To use `SierraTwo`, create a Slack workspace where you are the admin. Afterwards go to [Slack Apps][Slack Apps] and create a bot. From there, under the `Features` tab, go to `OAuth & Permissions` and add the following scopes:
+To use `SierraTwo`, create or be a part of a Slack workspace where you are the admin. Afterwards go to 
+[Slack API][Slack API] and create an app. From there, under the `Features` tab, go to `OAuth & Permissions` and add the 
+following scopes:
 
 ### Bot Token Scopes
 | Permission             | Description                                                                                     |
@@ -51,18 +50,17 @@ To use `SierraTwo`, create a Slack workspace where you are the admin. Afterwards
 | **admin**  | Administer the workspace |
 
 
-After setting the token scopes, paste your `Member ID` (your Slack ID), `OAuth Access Token` and `Bot User OAuth Token` to `config.yaml` file. Finally, install the app on the workspace.
+After setting the token scopes, paste your `Member ID` (your Slack ID), `OAuth Access Token` and `Bot User OAuth Token` 
+to `config.yaml` file. Finally, install the app on the workspace.
 
 ## TODO:
 - Divide the script into smaller functions for readability.
-- Have a working exit and upload mechanism.
-- Read Slack tokens from a config file.
 - Add support for Windows and Linux operating systems.
 - Implement a simple process injection method for Windows and Linux.
-- Implement an easy-to-use obfuscated (for evasion, not anti-debugging, etc.) binary generation for Windows and Linux operating systems.
+- Implement an easy-to-use obfuscated (for evasion, not anti-debugging, etc.) binary generation for Windows and Linux 
+operating systems.
 
 ## Known Bugs:
-- Sometimes channels don't get created.
-- Upload sends filename as bytes output converted to string (ex: file does not exist: b'filename.txt') - Looks like an issue on Slack's side.
+- Launching more than one instance of the bot causes the Slack API to kick the bot offline (The server responds with `{'ok': False, 'error': 'ratelimited'}`).
 
-[Slack Apps]: https://api.slack.com
+[Slack API]: https://api.slack.com
