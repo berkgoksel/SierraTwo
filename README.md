@@ -2,23 +2,41 @@
 `SierraTwo` is a simple reverse shell over Slack.
 
 ## Usage
-`SierraTwo` only supports Python 3.x.
+`SierraTwo` only supports Python 3.x. 
 
-### Windows
+### Direct Usage
+#### Windows
 ```
 $ pip install -r requirements.txt
 $ python SierraTwo.py
 ```
 
-### Linux
+#### Linux
 ```
 $ sudo apt install python3-pip
 $ pip3 install -r requirements.txt
 $ python3 SierraTwo.py
 ```
 
+### Building
+If you'd rather build an executable instead than running `SierraTwo` with Python:
+
+```
+$ sudo apt install python3-pip wine winetricks
+$ wget https://www.python.org/ftp/python/3.8.2/python-3.8.2-amd64.exe
+$ wine python-3.8.2-amd64.exe
+$ pip3 install -r requirements.txt
+$ wine pip install -r requirements.txt
+$ python3 builder.py -o <TARGET SYSTEM>
+```
+
+The following commands will setup WINE with 64 bit Python 3.8.2 on your system. `<TARGET SYSTEM>` can be either 
+`Windows` or `Linux`. For example, running `python3 builder.py -o Linux` on a 64 bit Linux with machine will generate a 
+64 bit executable. Same logic applies for `-o Windows`. If you wanted to generate a 32 bit executable, you'd have to 
+install 32 bit Python instead of 64 bit (on your Linux and/or WINE).
+
 ## Configuration
-To use `SierraTwo`, create or be a part of a Slack workspace where you are the admin. Afterwards go to 
+To use `SierraTwo`, create or be a part of a Slack workspace where you an admin. Afterwards go to 
 [Slack API][Slack API] and create an app. From there, under the `Features` tab, go to `OAuth & Permissions` and add the 
 following scopes:
 
@@ -51,7 +69,7 @@ following scopes:
 
 
 After setting the token scopes, paste your `Member ID` (your Slack ID), `OAuth Access Token` and `Bot User OAuth Token` 
-to `config.yaml` file. Finally, install the app on the workspace.
+to `config.py` file. Finally, install the app on the workspace.
 
 ## TODO:
 - Divide the script into smaller functions for readability.
@@ -61,6 +79,7 @@ to `config.yaml` file. Finally, install the app on the workspace.
 operating systems.
 
 ## Known Bugs:
-- Launching more than one instance of the bot causes the Slack API to kick the bot offline (The server responds with `{'ok': False, 'error': 'ratelimited'}`).
+- Launching more than one instance of the bot causes the Slack API to kick the bot offline (The server responds with 
+`{'ok': False, 'error': 'ratelimited'}`).
 
 [Slack API]: https://api.slack.com
