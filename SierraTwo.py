@@ -68,7 +68,10 @@ def next_sh(channel_names):
 
 def init_conn():
     if platform.system() == "Windows":
-        machine_UUID = str(subprocess.check_output("wmic csproduct get UUID"))
+        get_UUID = str(subprocess.check_output("wmic csproduct get UUID").decode().strip())
+        for line in get_UUID:
+            UUID = " ".join(get_UUID.split())
+            machine_UUID = UUID[5:]
 
     elif platform.system() == "Linux":
         machine_UUID = str(subprocess.check_output(["cat", "/etc/machine-id"]).decode().strip())
