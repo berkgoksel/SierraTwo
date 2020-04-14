@@ -6,10 +6,7 @@
 
 ### Direct Usage
 #### Windows
-```
-$ pip install -r requirements.txt
-$ python SierraTwo.py
-```
+Not available. Instead, refer to [building](#building) to build an `.exe` for Windows.
 
 #### Linux
 ```
@@ -19,21 +16,25 @@ $ python3 SierraTwo.py
 ```
 
 ### Building
-If you'd rather build an executable instead than running `SierraTwo` with Python:
+To build an executable:
 
 ```
-$ sudo apt install python3-pip wine winetricks
+$ sudo apt install python3-pip winbind wine winetricks
 $ wget https://www.python.org/ftp/python/3.8.2/python-3.8.2-amd64.exe
 $ wine python-3.8.2-amd64.exe
 $ pip3 install -r requirements.txt
-$ wine pip install -r requirements.txt
+$ wine pip install -r wine_requirements.txt
 $ python3 builder.py -o <TARGET SYSTEM>
 ```
 
-The following commands will setup WINE with 64 bit Python 3.8.2 on your system. `<TARGET SYSTEM>` can be either 
-`Windows` or `Linux`. For example, running `python3 builder.py -o Linux` on a 64 bit Linux with machine will generate a 
-64 bit executable. Same logic applies for `-o Windows`. If you wanted to generate a 32 bit executable, you'd have to 
-install 32 bit Python instead of 64 bit (on your Linux and/or WINE).
+#### **BE SURE TO ADD PYTHON TO PATH WHEN INSTALLING WITH WINE**
+
+The following commands will setup Wine with 64 bit Python 3.8.2 on your system. `<TARGET SYSTEM>` can be either 
+`Windows` or `Linux`. After building the executable, check the `bin` folder.
+
+For example, running `python3 builder.py -o Linux` on a 64 bit Linux will generate a 64 bit executable. Same logic 
+applies for `-o Windows`. If you want to generate a 32 bit executable, you'd have to install 32 bit Python instead of 
+64 bit (on your Linux and/or Wine).
 
 ## Configuration
 To use `SierraTwo`, create or be a part of a Slack workspace where you an admin. Afterwards go to 
@@ -68,8 +69,15 @@ following scopes:
 | **admin**  | Administer the workspace |
 
 
-After setting the token scopes, paste your `Member ID` (your Slack ID), `OAuth Access Token` and `Bot User OAuth Token` 
-to `config.py` file. Finally, install the app on the workspace.
+After setting the token scopes, copy and paste your `Member ID` (and others that will have access to the app), 
+`OAuth Access Token` and `Bot User OAuth Token` to `config.py`. Finally, install the app on the workspace.
+
+### Disclaimers
+- This project is for educational purposes only. The developers are not responsible for any damage that may be caused 
+by this program nor any consequences that may arise.
+- By using this program you accept that the developers are not responsible if you violate 
+[Slack's Terms of Service][Slack ToS] and [Slack's API Terms of Service][Slack API ToS].
+- With the current permissions of the app, `SierraTwo` will have an admin access over your workspace.
 
 ## TODO:
 - Divide the script into smaller functions for readability.
@@ -82,4 +90,6 @@ operating systems.
 - Launching more than one instance of the bot causes the Slack API to kick the bot offline (The server responds with 
 `{'ok': False, 'error': 'ratelimited'}`).
 
-[Slack API]: https://api.slack.com
+[Slack API]:      https://api.slack.com
+[Slack ToS]:      https://slack.com/terms-of-service
+[Slack API ToS]:  https://slack.com/terms-of-service/api
