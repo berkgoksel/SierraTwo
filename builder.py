@@ -25,30 +25,16 @@ def builder(dist):
         subprocess.run(["wine", "pyinstaller", "--onefile", "SierraTwo.py"])
         time.sleep(1)
         subprocess.run(["rm", "-rf", "build", "__pycache__", "SierraTwo.spec"])
-        
-        if os.path.exists("bin") == False:
-            subprocess.run(["mv", "dist", "bin"])
-        
-        else:
-            subprocess.run(["mv", "dist/SierraTwo.exe", "bin"])
-        
-        print("\nDone. Check 'bin' for your file")
+        print("\nDone. Check 'dist' for your file")
         sys.exit(0)
 
     elif dist.lower() == "linux":
         subprocess.run(["pyinstaller", "--onefile", "SierraTwo.py"])
         time.sleep(1)
         subprocess.run(["rm", "-rf", "build", "__pycache__", "SierraTwo.spec"])
-
-        if os.path.exists("bin") == False:
-            subprocess.run(["mv", "dist", "bin"])
-        
-        else:
-            subprocess.run(["mv", "dist/SierraTwo", "bin"])
-
-        print("\nDone. Check 'bin' for your file")
+        print("\nDone. Check 'dist' for your file")
         sys.exit(0)
-    
+
     else:
         print("Unsupported operating system")
         sys.exit(0)
