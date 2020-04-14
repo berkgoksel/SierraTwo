@@ -30,7 +30,7 @@ $ python3 builder.py -o <TARGET SYSTEM>
 #### **BE SURE TO ADD PYTHON TO PATH WHEN INSTALLING WITH WINE**
 
 The following commands will setup Wine with 64 bit Python 3.8.2 on your system. `<TARGET SYSTEM>` can be either 
-`Windows` or `Linux`. After building the executable, check the `bin` folder.
+`Windows` or `Linux`. After building the executable, check the `dist` folder for your exectuable.
 
 For example, running `python3 builder.py -o Linux` on a 64 bit Linux will generate a 64 bit executable. Same logic 
 applies for `-o Windows`. If you want to generate a 32 bit executable, you'd have to install 32 bit Python instead of 
@@ -73,9 +73,9 @@ After setting the token scopes, copy and paste your `Member ID` (and others that
 `OAuth Access Token` and `Bot User OAuth Token` to `config.py`. Finally, install the app on the workspace.
 
 ### Disclaimers
-- This project is for educational purposes only. The developers are not responsible for any damage that may be caused 
-by this program nor any consequences that may arise.
-- By using this program you accept that the developers are not responsible if you violate 
+- This project is for educational purposes only. The developers and contributors are not responsible for any damage 
+that may be caused by this program nor any consequences that may arise.
+- By using this program you accept that the developers and contributors are not responsible if you violate 
 [Slack's Terms of Service][Slack ToS] and [Slack's API Terms of Service][Slack API ToS].
 - With the current permissions of the app, `SierraTwo` will have an admin access over your workspace.
 
