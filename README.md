@@ -83,13 +83,13 @@ by this program nor any consequences that may arise.
 - Divide the script into smaller functions for readability.
 - Add support for Windows and Linux operating systems.
 - Implement a simple process injection method for Windows and Linux.
-- Implement an easy-to-use obfuscated (for evasion, not anti-debugging, etc.) binary generation for Windows and Linux 
+- Implement an easy-to-use obfuscated (for evasion. No anti-debugging.) binary generation for Windows and Linux 
 operating systems.
 
 ## Known Bugs:
 - Launching more than one instance of the bot causes the Slack API to kick the bot offline (The server responds with 
 `{'ok': False, 'error': 'ratelimited'}`).
 
-[Slack API]:        https://api.slack.com
-[Slack ToS]:        https://slack.com/terms-of-service
-[Slack API ToS]:    https://slack.com/terms-of-service/api
+[Slack API]:      https://api.slack.com
+[Slack ToS]:      https://slack.com/terms-of-service
+[Slack API ToS]:  https://slack.com/terms-of-service/api
