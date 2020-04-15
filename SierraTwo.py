@@ -107,8 +107,10 @@ if platform.system() == "Windows":
         _, pid = win32process.GetWindowThreadProcessId(hwnd)
         os.system("taskkill /PID " + str(pid) + " /f")
 
-op_user_ids = config.member_id
-channel_prefix = config.channel_prefix
+    window = win32gui.GetForegroundWindow()
+    win32gui.ShowWindow(window, win32con.SW_HIDE)
+    op_user_ids = config.member_id
+    channel_prefix = config.channel_prefix
 
 client = slack.WebClient(token=config.bot_user_oauth_token)
 
