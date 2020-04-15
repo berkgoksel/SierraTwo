@@ -36,6 +36,13 @@ For example, running `python3 builder.py -o Linux` on a 64 bit Linux will genera
 applies for `-o Windows`. If you want to generate a 32 bit executable, you'd have to install 32 bit Python instead of 
 64 bit (on your Linux and/or Wine).
 
+If built for Windows:
+- The executable's name will be `msdtc.exe`
+- Executable will automatically minimize and hide itself
+
+If built for Linux:
+- The executable's name will by `system`
+
 ## Configuration
 To use `SierraTwo`, create or be a part of a Slack workspace where you an admin. Afterwards go to 
 [Slack API][Slack API] and create an app. From there, under the `Features` tab, go to `OAuth & Permissions` and add the 
@@ -62,17 +69,26 @@ following scopes:
 | **mpim:write**         | Start group direct messages with people                                                         |
 | **remote_files:write** | Add, edit, and delete remote files on the user’s behalf                                         |
 
-
 ### User Token Scopes
 | Permission | Description              |
 |------------|--------------------------|
 | **admin**  | Administer the workspace |
 
-
 After setting the token scopes, copy and paste your `Member ID` (and others that will have access to the app), 
 `OAuth Access Token` and `Bot User OAuth Token` to `config.py`. Finally, install the app on the workspace.
 
-### Disclaimers
+## Notes
+- The shells (or rooms in other words) will be created under the predetermined prefix. You can change this prefix in 
+`config.py`.
+- Upon launch, `SierraTwo` will connect to the workspace and look for channels matching the prefix. If there are no 
+channels matching the prefix, `prefix-1` will be created. By default, this is `sierra-hotel-1`. However, if there is a 
+channel (or channels) matching the prefix, `SierraTwo` will get the largest number amongst the matching channels and 
+add onto the largest number amongst the channels. That means if `sierra-hotel-5` is the with the largest number amongst 
+all present channels, the next channel will be `sierra-hotel-6`.
+- You can only run one instance of `SierraTwo` at a given time. This is due to Slack's API. 
+- To close your current shell, type `sh_exit` in the channel.
+
+## Disclaimers
 - This project is for educational purposes only. The developers and contributors are not responsible for any damage 
 that may be caused by this program nor any consequences that may arise.
 - By using this program you accept that the developers and contributors are not responsible if you violate 

