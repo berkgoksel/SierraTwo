@@ -105,7 +105,7 @@ if platform.system() == "Windows":
         ctypes.windll.user32.ShowWindow(hwnd, 0)
         ctypes.windll.kernel32.CloseHandle(hwnd)
         _, pid = win32process.GetWindowThreadProcessId(hwnd)
-        os.system("taskkill /PID " + str(pid) + " /f")
+        os.system(f"taskkill /PID {pid} /f")
 
 client = slack.WebClient(token=config.bot_user_oauth_token)
 
