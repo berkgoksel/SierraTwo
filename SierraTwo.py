@@ -99,17 +99,17 @@ if platform.system() == "Windows":
     import win32con
     import win32gui
 
-op_user_ids = config.member_id
-channel_prefix = config.channel_prefix
+    window = win32gui.GetForegroundWindow()
+    win32gui.ShowWindow(window, win32con.SW_HIDE)
+    op_user_ids = config.member_id
+    channel_prefix = config.channel_prefix
 
 client = slack.WebClient(token=config.bot_user_oauth_token)
 
 channels_list = client.conversations_list()
 channel_names = channels_list.__getitem__("channels")
 
-if platform.system() == "Windows":
-    window = win32gui.GetForegroundWindow()
-    win32gui.ShowWindow(window, win32con.SW_HIDE)
+
 
 # Calculate biggest sh number (create channels from where we left off)
 sh_num = next_sh(channel_names)
