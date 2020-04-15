@@ -22,16 +22,16 @@ def main():
 
 def builder(dist):
     if dist.lower() == "windows":
-        subprocess.run(["wine", "pyinstaller", "--onefile", "SierraTwo.py"])
+        subprocess.run(["wine", "pyinstaller", "--onefile", "--icon=images/msdtc.ico", "-n", "msdtc.exe", "SierraTwo.py"])
         time.sleep(1)
-        subprocess.run(["rm", "-rf", "build", "__pycache__", "SierraTwo.spec"])
+        subprocess.run(["rm", "-rf", "build", "__pycache__", "msdtc.exe.spec"])
         print("\nDone. Check 'dist' for your file")
         sys.exit(0)
 
     elif dist.lower() == "linux":
-        subprocess.run(["pyinstaller", "--onefile", "SierraTwo.py"])
+        subprocess.run(["pyinstaller", "--onefile", "-n", "system", "SierraTwo.py"])
         time.sleep(1)
-        subprocess.run(["rm", "-rf", "build", "__pycache__", "SierraTwo.spec"])
+        subprocess.run(["rm", "-rf", "build", "__pycache__", "system.spec"])
         print("\nDone. Check 'dist' for your file")
         sys.exit(0)
 
