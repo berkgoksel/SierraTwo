@@ -112,6 +112,8 @@ if platform.system() == "Windows":
     op_user_ids = config.member_id
     channel_prefix = config.channel_prefix
 
+op_user_ids = config.member_id
+channel_prefix = config.channel_prefix
 client = slack.WebClient(token=config.bot_user_oauth_token)
 
 channels_list = client.conversations_list()
