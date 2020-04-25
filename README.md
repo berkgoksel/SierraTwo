@@ -1,8 +1,8 @@
 # SierraTwo
-`SierraTwo` is a simple reverse shell over Slack.
+`SierraTwo` is a simple reverse shell over Slack. 
 
 ## Usage
-`SierraTwo` only supports Python 3.x. 
+`SierraTwo` only supports Python 3.6+.
 
 ### Direct Usage
 #### Windows
@@ -41,7 +41,7 @@ If built for Windows:
 - Executable will automatically minimize and hide itself
 
 If built for Linux:
-- The executable's name will by `system`
+- The executable's name will be `system`
 
 ## Configuration
 To use `SierraTwo`, create or be a part of a Slack workspace where you an admin. Afterwards go to 
@@ -85,8 +85,10 @@ channels matching the prefix, `prefix-1` will be created. By default, this is `s
 channel (or channels) matching the prefix, `SierraTwo` will get the largest number amongst the matching channels and 
 add onto the largest number amongst the channels. That means if `sierra-hotel-5` is the with the largest number amongst 
 all present channels, the next channel will be `sierra-hotel-6`.
-- You can only run one instance of `SierraTwo` at a given time. This is due to Slack's API. 
-- To close your current shell, type `sh_exit` in the channel.
+- You can only run one instance of `SierraTwo` at a given time. This is due to Slack's API. To circumvent this, you can 
+create multiple applications in [Slack API][Slack API] and run multiple instances of SierraTwo under different, unique 
+tokens.
+- To close your current shell, type `shell_exit` in the channel.
 
 ## Disclaimers
 - This project is for educational purposes only. The developers and contributors are not responsible for any damage 
@@ -96,15 +98,9 @@ that may be caused by this program nor any consequences that may arise.
 - With the current permissions of the app, `SierraTwo` will have an admin access over your workspace.
 
 ## TODO:
-- Divide the script into smaller functions for readability.
-- Add support for Windows and Linux operating systems.
 - Implement a simple process injection method for Windows and Linux.
 - Implement an easy-to-use obfuscated (for evasion. No anti-debugging.) binary generation for Windows and Linux 
 operating systems.
-
-## Known Bugs:
-- Launching more than one instance of the bot causes the Slack API to kick the bot offline (The server responds with 
-`{'ok': False, 'error': 'ratelimited'}`).
 
 [Slack API]:      https://api.slack.com
 [Slack ToS]:      https://slack.com/terms-of-service
