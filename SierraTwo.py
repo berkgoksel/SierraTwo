@@ -5,6 +5,7 @@ import platform
 import subprocess
 import sys
 import time
+import threading
 
 import slack
 
@@ -115,25 +116,51 @@ def machine_info():
     return info
 
 
+uploaderThreadResult = ""
+uploading = False
+
+def uploader_thread(filename):
+    global uploaderThreadResult
+    global uploading
+
+    uploaderThreadResult = ""
+    uploading = True
+    try:
+        out = client.files_upload(
+            file=filename,
+            channels=channel_id,
+            filename=filename,
+            title=filename
+        )
+
+        uploaderThreadResult = f"Uploaded `{filename}`"
+    except FileNotFoundError:
+        uploaderThreadResult = "File not found."
+
+    uploading = False
+
 def upload(data):
     try:
-        filename = data
+        threading.Thread(
+            target=uploader_thread,
+            daemon=True,
+            args=(data,)
+        ).start()
 
-        client.chat_postMessage(channel=channel_id,
-                                text=f"Uploading `{filename}`, "
-                                "standby...")
+        while uploading:
+            try:
+                client.chat_postMessage(
+                    channel=channel_id,
+                    text=f"Please wait while your file is uploading."
+                )
+            except:
+                pass
 
-        client.files_upload(file=filename,
-                            channels=channel_id,
-                            filename=filename,
-                            title=filename,)
+            time.sleep(10)
 
-        client.chat_postMessage(channel=channel_id,
-                                text=f"Uploaded `{filename}`.")
-
-    except FileNotFoundError:
-        return "File not found."
-
+        return uploaderThreadResult
+    except threading.ThreadError:
+        return "Cannot start uploader thread."
 
 def handle_user_input(command):
     output = ""
@@ -241,7 +268,7 @@ if platform.system() == "Windows":
 
 operators = config.member_id
 channel_prefix = config.channel_prefix
-client = slack.WebClient(token=config.bot_user_oauth_token)
+client = slack.WebClient(token=config.bot_user_oauth_token, timeout=0)
 
 if __name__ == "__main__":
     prepare_shell()
