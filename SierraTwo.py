@@ -127,10 +127,6 @@ def uploader_thread(filename):
     uploading = True
 
     if os.path.exists(filename):
-        client.chat_postMessage(channel=channel_id,
-                                text=f"Please wait while your "
-                                "file is uploaded.")
-
         out = client.files_upload(file=filename,
                                   channels=channel_id,
                                   filename=filename,
@@ -152,7 +148,9 @@ def upload(data):
 
         while uploading:
             try:
-                pass
+                client.chat_postMessage(channel=channel_id, 
+                                        text=f"Please wait while your file is "
+                                        "uploaded.")
 
             except:
                 pass
@@ -231,7 +229,7 @@ def listen():
     while True:
         # Get the channel history
         history = client.conversations_history(channel=channel_id)
-        time.sleep(0.3)
+        time.sleep(0.8)
 
         # Get the messages from history
         messages = history.__getitem__("messages")[0]
@@ -271,7 +269,7 @@ if platform.system() == "Windows":
 
 operators = config.member_id
 channel_prefix = config.channel_prefix
-client = slack.WebClient(token=config.bot_user_oauth_token)
+client = slack.WebClient(token=config.bot_user_oauth_token, timeout=86400)
 
 if __name__ == "__main__":
     prepare_shell()
