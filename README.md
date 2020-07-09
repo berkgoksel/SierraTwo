@@ -1,6 +1,10 @@
 # SierraTwo
 `SierraTwo` is a simple reverse shell over Slack. 
 
+<p align="center">
+  <img src="media/demo.gif">
+</p>
+
 ## Usage
 `SierraTwo` only supports Python 3.6+.
 
