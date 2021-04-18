@@ -1,3 +1,3 @@
 pyarmor
 pyinstaller
-slackclient
+slack_sdk

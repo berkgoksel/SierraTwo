@@ -1,4 +1,4 @@
 pyarmor
 pyinstaller
 pywin32
-slackclient
+slacksdk

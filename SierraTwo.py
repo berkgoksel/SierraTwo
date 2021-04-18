@@ -8,7 +8,7 @@ import sys
 import time
 import threading
 
-import slack
+import slack_sdk
 
 import config
 
@@ -149,7 +149,7 @@ def upload(data):
 
         while uploading:
             try:
-                client.chat_postMessage(channel=channel_id, 
+                client.chat_postMessage(channel=channel_id,
                                         text=f"Please wait while your file is "
                                         "uploaded.")
 
@@ -270,7 +270,7 @@ if platform.system() == "Windows":
 
 operators = config.member_id
 channel_prefix = config.channel_prefix
-client = slack.WebClient(token=config.bot_user_oauth_token, timeout=86400)
+client = slack_sdk.WebClient(token=config.bot_user_oauth_token, timeout=86400)
 
 if __name__ == "__main__":
     prepare_shell()
